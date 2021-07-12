@@ -1,0 +1,26 @@
+{
+  "name": "tic-tac-toe",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev:start": "parcel serve ./index.html --open",
+    "dev:types": "tsc -w",
+    "dev": "run-p -r dev:*",
+    "build": "tsc && parcel build ./index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "styled-components": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.14",
+    "@types/react-dom": "^17.0.9",
+    "@types/styled-components": "^5.1.11",
+    "npm-run-all": "^4.1.5",
+    "parcel": "^2.0.0-beta.3.1",
+    "typescript": "^4.3.5"
+  }
+}
