@@ -8,6 +8,7 @@
     "dev:types": "tsc -w",
     "dev": "run-p -r dev:*",
     "build": "tsc && parcel build ./index.html",
+    "clean": "node ./scripts/clean",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
