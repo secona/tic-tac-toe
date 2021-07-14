@@ -1,22 +1,27 @@
 import * as React from 'react';
 import { useBoard } from './hooks/useBoard';
 import { MountComponents } from './components/MountComponents';
-import { BoardItem } from './components/BoardItem';
+import { BoardCell } from './components/BoardCell';
 import { Board } from './components/Board';
 
 export const App = () => {
-  const [state, dispatch] = useBoard();
+  const [game, dispatch] = useBoard();
 
   return (
     <MountComponents>
-      <span>{state.currentTurn}'s turn to move</span>
+      <p>
+        {game.winner
+          ? `${game.winner} wins the game!`
+          : `${game.currentTurn}'s turn to move`}
+      </p>
       <button onClick={() => dispatch({ type: 'RESET' })}>Reset</button>
       <Board>
-        {state.value.map((v, i) => (
-          <BoardItem
-            key={i}
-            value={v}
+        {game.board.map((v, i) => (
+          <BoardCell
             onClick={() => dispatch({ type: 'PLAY', payload: i })}
+            disabled={!!game.winner}
+            key={i}
+            cellValue={v}
           />
         ))}
       </Board>

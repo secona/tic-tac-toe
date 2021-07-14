@@ -1,24 +1,28 @@
 import { useReducer } from 'react';
+import { findWinner } from '../utils/findWinner';
 
-type State = {
-  value: Array<'x' | 'o' | ''>;
-  currentTurn: 'x' | 'o';
+export type FillChars = 'X' | 'O' | null
+export type State = {
+  board: FillChars[];
+  currentTurn: 'X' | 'O';
+  winner: FillChars;
 };
 
-type Action =
+export type Action =
   | { type: 'PLAY'; payload: number }
   | { type: 'RESET' };
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'PLAY':
-      const newValue = [...state.value];
-      if (newValue[action.payload] === '')
-        newValue[action.payload] = state.currentTurn;
+      const board = [...state.board];
+      if (board[action.payload] === null)
+        board[action.payload] = state.currentTurn;
 
       return {
-        currentTurn: state.currentTurn === 'x' ? 'o' : 'x',
-        value: newValue,
+        currentTurn: state.currentTurn === 'X' ? 'O' : 'X',
+        winner: findWinner(board),
+        board,
       };
 
     case 'RESET':
@@ -30,8 +34,9 @@ const reducer = (state: State, action: Action): State => {
 };
 
 const initialState: State = {
-  value: ['', '', '', '', '', '', '', '', ''],
-  currentTurn: 'x',
+  board: Array(9).fill(null),
+  currentTurn: 'X',
+  winner: null,
 };
 
 export const useBoard = () => useReducer(reducer, initialState);
