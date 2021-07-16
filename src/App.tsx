@@ -5,6 +5,7 @@ import { Container } from './components/Container';
 import { BoardCell } from './components/BoardCell';
 import { Button } from './components/Button';
 import { Board } from './components/Board';
+import { getGameMessage } from './utils/getGameMessage';
 
 const Topbar = styled.div`
   display: flex;
@@ -23,20 +24,17 @@ export const App = () => {
   return (
     <Container>
       <Topbar>
-        <p>
-          {game.winner
-            ? `${game.winner} wins the game!`
-            : `${game.currentTurn}'s turn to move`}
-        </p>
+        <p>{getGameMessage(game.currentTurn, game.winner.value)}</p>
         <Button onClick={() => dispatch({ type: 'RESET' })}>Reset</Button>
       </Topbar>
       <Board>
         {game.board.map((v, i) => (
           <BoardCell
             onClick={() => dispatch({ type: 'PLAY', payload: i })}
-            disabled={!!game.winner}
-            key={i}
+            disabled={['X', 'O'].indexOf(game.winner.value) >= 0}
+            winnerCell={game.winner.combo?.includes(i)}
             cellValue={v}
+            key={i}
           />
         ))}
       </Board>

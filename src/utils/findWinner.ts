@@ -1,4 +1,4 @@
-import { FillChars } from '../hooks/useBoard';
+import { State } from '../hooks/useBoard';
 
 const winningCombos = [
   // rows
@@ -16,17 +16,23 @@ const winningCombos = [
   [2, 4, 6],
 ];
 
-const checkCombo = (combo: number[], board: FillChars[]) =>
+const checkCombo = (combo: number[], board: State['board']) =>
   board[combo[0]] === board[combo[1]] &&
   board[combo[1]] === board[combo[2]] &&
   board[combo[0]];
 
 /** find the tic tac toe winner */
-export function findWinner(board: FillChars[]) {
-  for (const combo of winningCombos) {
+export function findWinner(board: State['board']): State['winner'] {
+  for (let i = 0; i < winningCombos.length; i++) {
+    const combo = winningCombos[i];
     const winner = checkCombo(combo, board);
-    if (winner) return winner;
+    if (winner && winner !== 'empty')
+      return { value: winner, combo };
   }
 
-  return null;
+  if (!board.includes('empty')) {
+    return { value: 'tie' };
+  }
+
+  return { value: 'not-found' };
 }
