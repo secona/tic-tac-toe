@@ -31,8 +31,8 @@ export const App = () => {
         {game.board.map((v, i) => (
           <BoardCell
             onClick={() => dispatch({ type: 'PLAY', payload: i })}
-            disabled={['X', 'O'].indexOf(game.winner.value) >= 0}
-            winnerCell={game.winner.combo?.includes(i)}
+            cellWin={game.winner.combo?.includes(i) ? true : false}
+            gameOver={game.winner.value !== 'not-found'}
             cellValue={v}
             key={i}
           />
